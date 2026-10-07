@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Agendar Nueva Atención</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Paciente</label>
+                        <select name="rut" class="form-select" required>
+                            <option value="">-- Selecciona un paciente --</option>
+                            {% for p in pacientes %}
+                                <option value="{{ p.rut }}">{{ p.nombre }} ({{ p.rut_formateado }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Hora de Atención (ej. 10:30)</label>
+                        <input type="time" name="hora" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Tratamientos a Realizar</label>
+                        <div class="card p-3">
+                            {% for t in tratamientos %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="tratamientos" value="{{ t.id_tratamiento }}" id="t_{{ t.id_tratamiento }}">
+                                <label class="form-check-label" for="t_{{ t.id_tratamiento }}">
+                                    [{{ t.TIPO }}] {{ t.descripcion }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">Confirmar Agendamiento</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

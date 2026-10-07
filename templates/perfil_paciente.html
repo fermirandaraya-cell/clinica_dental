@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-5">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Ficha: {{ p.nombre }}</h4>
+            </div>
+            <div class="card-body">
+                <p><strong>RUT:</strong> {{ p.rut_formateado }}</p>
+                <form method="POST">
+                    <div class="mb-2">
+                        <label>Teléfono</label>
+                        <input type="text" name="telefono" class="form-control" value="{{ p.telefono }}">
+                    </div>
+                    <div class="mb-2">
+                        <label>Correo</label>
+                        <input type="email" name="correo" class="form-control" value="{{ p.correo }}">
+                    </div>
+                    <div class="mb-2">
+                        <label>Días de Deuda</label>
+                        <input type="number" name="deuda" class="form-control" value="{{ p.dias_deuda_vencida }}">
+                    </div>
+                    <div class="mb-2">
+                        <label>Alergias (Generales)</label>
+                        <input type="text" name="alergias" class="form-control" value="{{ p.alergias or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label>Alergia a la Anestesia</label>
+                        <select name="anestesia" class="form-select">
+                            <option value="sin" {% if p.alergia_anestesia == None %}selected{% endif %}>Sin registrar</option>
+                            <option value="si" {% if p.alergia_anestesia == True %}selected{% endif %}>Sí (Alérgico)</option>
+                            <option value="no" {% if p.alergia_anestesia == False %}selected{% endif %}>No</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <a href="/pacientes" class="btn btn-secondary">Volver</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-7">
+        <div class="card shadow h-100">
+            <div class="card-header bg-secondary text-white">
+                <h4 class="mb-0">Historial Médico</h4>
+            </div>
+            <div class="card-body">
+                <ul class="list-group mb-3">
+                    {% for h in p.historial_medico %}
+                        <li class="list-group-item">{{ h }}</li>
+                    {% else %}
+                        <li class="list-group-item text-muted">No hay registros en el historial.</li>
+                    {% endfor %}
+                </ul>
+                <form method="POST">
+                    <div class="input-group">
+                        <input type="text" name="nuevo_historial" class="form-control" placeholder="Añadir nota al historial...">
+                        <button type="submit" class="btn btn-success">Añadir</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

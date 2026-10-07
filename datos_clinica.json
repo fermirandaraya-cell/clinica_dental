@@ -9,6 +9,16 @@
       "alergias": "",
       "alergia_anestesia": false,
       "dias_deuda_vencida": 0
+    },
+    {
+      "rut": "16876098-1",
+      "nombre": "Fernando Antonio Miranda Araya",
+      "telefono": "5695624445",
+      "correo": "fernando.miranda22@inacapmail.cl",
+      "historial_medico": "",
+      "alergias": "no",
+      "alergia_anestesia": true,
+      "dias_deuda_vencida": 4
     }
   ],
   "tratamientos": [
@@ -131,7 +141,25 @@
           "precio_unitario": 25000
         }
       ]
+    },
+    {
+      "id": 6,
+      "rut": "16876098-1",
+      "nombre": "Fernando Antonio Miranda Araya",
+      "fecha": "2026-10-07",
+      "hora": "16:40",
+      "estado": "registrada",
+      "monto_total": 15000,
+      "valor_dolar_usado": null,
+      "detalles": [
+        {
+          "id": 1,
+          "descripcion": "Radiografía panorámica",
+          "cantidad": 1,
+          "precio_unitario": 15000
+        }
+      ]
     }
   ],
-  "siguiente_atencion": 6
+  "siguiente_atencion": 7
 }

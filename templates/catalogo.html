@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Catálogo de Tratamientos</h2>
+<div class="alert alert-info">
+    {% if indicador.valor_dolar %}
+        <strong>Dólar de hoy:</strong> {{ indicador.valor_dolar | clp }} ({{ indicador.fecha }})
+    {% else %}
+        <strong>Aviso:</strong> No se pudo conectar a la API del dólar. La ortodoncia no mostrará su valor en CLP.
+    {% endif %}
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for t in tratamientos %}
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title text-primary">[{{ t.TIPO }}] {{ t.descripcion }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Duración: {{ t.calcular_duracion() }} min</h6>
+                
+                <p class="card-text">
+                    <strong>Valor: </strong>
+                    {% set costo = t.calcular_costo(indicador) %}
+                    <span class="fs-4">{{ costo | clp }}</span>
+                </p>
+                
+                {% if t.TIPO == "Ortodoncia" %}
+                    <small class="text-muted">(Costo base: USD ${{ t.costo_base }})</small>
+                {% elif t.TIPO == "Cirugia" %}
+                    <small class="text-danger">Incluye recargo del 50% por pabellón</small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

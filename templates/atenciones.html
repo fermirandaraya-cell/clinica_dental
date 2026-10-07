@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Atenciones Agendadas</h2>
+{% if not atenciones %}
+    <div class="alert alert-warning">No hay atenciones registradas en el sistema.</div>
+{% else %}
+    <div class="accordion" id="accordionAtenciones">
+        {% for a in atenciones %}
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{ loop.index }}">
+                    <strong>{{ a.fecha_hora }}</strong> &nbsp;- Paciente: {{ a.paciente.nombre }}
+                </button>
+            </h2>
+            <div id="collapse_{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent="#accordionAtenciones">
+                <div class="accordion-body">
+                    <p><strong>Odontólogo:</strong> {{ a.odontologo.nombre }}</p>
+                    <table class="table table-sm table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Tratamiento</th>
+                                <th>Duración</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for det in a.detalles %}
+                            <tr>
+                                <td>[{{ det.tratamiento.TIPO }}] {{ det.tratamiento.descripcion }}</td>
+                                <td>{{ det.tratamiento.calcular_duracion() }} min</td>
+                                <td>{{ det.calcular_subtotal() | clp }}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr class="table-secondary font-weight-bold">
+                                <td class="text-end"><strong>TOTAL:</strong></td>
+                                <td><strong>{{ a.obtener_duracion_total() }} min</strong></td>
+                                <td><strong>{{ a.calcular_total() | clp }}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

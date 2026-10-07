@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Listado de Pacientes</h2>
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>RUT</th>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Días de Deuda</th>
+            <th>¿Alergia Anestesia?</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in pacientes %}
+        <tr>
+            <td>{{ p.rut }}</td>
+            <td>{{ p.nombre }}</td>
+            <td>{{ p.telefono }}</td>
+            <td>{{ p.dias_deuda_vencida }}</td>
+            <td>
+                {% if p.alergia_anestesia == True %}
+                    <span class="badge bg-danger">Sí</span>
+                {% elif p.alergia_anestesia == False %}
+                    <span class="badge bg-success">No</span>
+                {% else %}
+                    <span class="badge bg-secondary">No registrado</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="/paciente/{{ p.rut }}" class="btn btn-sm btn-info text-white">Ver / Editar</a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% if not pacientes %}
+        <tr>
+            <td colspan="5" class="text-center">No hay pacientes registrados.</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}
